@@ -1,5 +1,5 @@
 locals {
-  name_standard="${var.environment}-${var.location}"
+  name_standard = "${var.environment}-${var.location}"
   common_tags = {
     Terraform_Managed = "true"
   }
@@ -17,13 +17,14 @@ module "resource_groups" {
   tags     = local.tags
 }
 
-#module "virtual_networks" {
-#  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-network"
-#
-#  for_each    = var.use_virtual_network ? var.virtual_networks : {}
-#  rg          = module.resource_groups[each.value.rg].name
-#  region      = var.location
-#  vnet_name   = "${var.environment}-${each.key}"
-#  vnet_ranges = each.value.vnet_ranges
-#  subnets     = each.value.subnets
-#}
+module "virtual_networks" {
+  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-network"
+
+  for_each    = var.use_virtual_network ? var.virtual_networks : {}
+  rg          = module.resource_groups[each.value.rg].name
+  location    = var.location
+  vnet_name   = "${local.name_standard}-${each.key}"
+  vnet_ranges = each.value.vnet_ranges
+  subnets     = each.value.subnets
+  tags        = local.tags
+}
