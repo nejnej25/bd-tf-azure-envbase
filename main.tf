@@ -2,7 +2,7 @@ locals {
   name_standard="${var.environment}-${var.location}"
 }
 module "resource_groups" {
-  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-resource-group"
+  source = "git@github.com:nejnej25/bd-tf-azure-modules.git//azure-resource-group?ref=main"
 
   for_each = var.use_resource_group ? { for k, v in var.resource_groups : v.name => v } : {}
   rg_name  = "${local.name_standard}-${each.key}"
