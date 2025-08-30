@@ -1,13 +1,20 @@
 locals {
   name_standard="${var.environment}-${var.location}"
+  common_tags = {
+    Terraform_Managed = "true"
+  }
+  tags = merge(
+    var.tags,
+    local.common_tags
+  )
 }
 module "resource_groups" {
   source = "git@github.com:nejnej25/bd-tf-azure-modules.git//azure-resource-group?ref=main"
 
   for_each = var.use_resource_group ? { for k, v in var.resource_groups : v.name => v } : {}
   rg_name  = "${local.name_standard}-${each.key}"
-  region   = var.location
-  tags     = var.tags
+  location = var.location
+  tags     = local.tags
 }
 
 #module "virtual_networks" {
