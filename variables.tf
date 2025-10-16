@@ -99,11 +99,13 @@ variable "use_route_table" {
 variable "route_tables" {
   description = "Route table definitions"
   type = map(object({
-    rg            = string
-    enabled       = bool
-    address       = string
-    next_hop_type = string
-    next_hop_ip   = optional(string)
+    rg = string
+    routes = optional(map(object({
+      enabled       = bool
+      address       = string
+      next_hop_type = string
+      next_hop_ip   = optional(string)
+    })), {})
   }))
 }
 
