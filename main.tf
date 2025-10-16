@@ -34,7 +34,7 @@ module "container_registries" {
 
   for_each                      = var.use_container_registry ? var.container_registries : {}
   rg                            = module.resource_groups[each.value.rg].name
-  acr_name                      = "${local.name_standard}${each.key}"
+  acr_name                      = "${var.environment}${var.location}${each.key}"
   location                      = var.location
   sku                           = each.value.sku
   public_network_access_enabled = each.value.public_network_access_enabled
