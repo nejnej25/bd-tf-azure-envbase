@@ -2,6 +2,7 @@ locals {
   name_standard = "${var.environment}-${var.location}"
   common_tags = {
     Terraform_Managed = "true"
+    Terraform_Service_Module = "envbase"
   }
   tags = merge(
     var.tags,
@@ -27,6 +28,8 @@ module "virtual_networks" {
   vnet_ranges = each.value.vnet_ranges
   subnets     = each.value.subnets
   tags        = local.tags
+
+  subnet_nsg_mapping = for k, v in each.value.subnets: k => modules.network_security_group[k].id
 }
 
 module "network_security_groups" {
