@@ -49,6 +49,12 @@ variable "virtual_networks" {
   }))
 }
 
+variable "use_network_security_group" {
+  description = "Enable/disable use of network security group module"
+  type = bool
+  default = false
+}
+
 variable "network_security_groups" {
   description = "Network security group definitions"
   type = map(object({
