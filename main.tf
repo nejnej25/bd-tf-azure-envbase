@@ -39,5 +39,6 @@ module "container_registries" {
   sku                           = each.value.sku
   public_network_access_enabled = each.value.public_network_access_enabled
   admin_enabled                 = each.value.admin_enabled
+  zone_redundancy_enabled       = each.value.zone_redundancy_enabled
   tags                          = local.tags
 }

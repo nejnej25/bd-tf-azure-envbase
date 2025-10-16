@@ -62,5 +62,6 @@ variable "container_registries" {
     sku                           = string
     public_network_access_enabled = bool
     admin_enabled                 = bool
+    zone_redundancy_enabled       = bool
   }))
 }
