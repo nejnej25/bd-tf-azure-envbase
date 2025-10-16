@@ -30,7 +30,7 @@ module "virtual_networks" {
   subnets     = each.value.subnets
   tags        = local.tags
 
-  subnet_nsg_mapping = { for k, v in each.value.subnets: k => modules.network_security_group[k].id }
+  subnet_nsg_mapping = { for k, v in each.value.subnets: k => modules.network_security_groups[k].id }
 }
 
 module "network_security_groups" {
