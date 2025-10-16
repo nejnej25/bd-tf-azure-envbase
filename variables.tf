@@ -88,7 +88,23 @@ variable "network_security_groups" {
       access                       = string
     })), {})
   }))
-  default = {}
+}
+
+variable "use_route_table" {
+  description = "Enable/disable use of route table module"
+  type        = bool
+  default     = false
+}
+
+variable "route_tables" {
+  description = "Route table definitions"
+  type = map(object({
+    rg            = string
+    enabled       = bool
+    address       = string
+    next_hop_type = string
+    next_hop_ip   = optional(string)
+  }))
 }
 
 variable "use_container_registry" {

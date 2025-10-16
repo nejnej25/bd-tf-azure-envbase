@@ -22,14 +22,15 @@ module "resource_groups" {
 module "virtual_networks" {
   source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-network?ref=main"
 
-  for_each           = var.use_virtual_network ? var.virtual_networks : {}
-  rg                 = module.resource_groups[each.value.rg].name
-  location           = var.location
-  vnet_name          = "${local.name_standard}-${each.key}"
-  vnet_ranges        = each.value.vnet_ranges
-  subnets            = each.value.subnets
-  subnet_nsg_mapping = { for k, v in each.value.subnets : k => module.network_security_groups[k].id }
-  tags               = local.tags
+  for_each              = var.use_virtual_network ? var.virtual_networks : {}
+  rg                    = module.resource_groups[each.value.rg].name
+  location              = var.location
+  vnet_name             = "${local.name_standard}-${each.key}"
+  vnet_ranges           = each.value.vnet_ranges
+  subnets               = each.value.subnets
+  subnet_nsg_mapping    = { for k, v in each.value.subnets : k => module.network_security_groups[k].id }
+  subnet_rtable_mapping = { for k, v in each.value.subnets : k => module.route_tables["default"].id }
+  tags                  = local.tags
 
 }
 
@@ -43,6 +44,17 @@ module "network_security_groups" {
   inbound_rules  = each.value.inbound_rules
   outbound_rules = each.value.outbound_rules
   tags           = local.tags
+}
+
+module "route_tables" {
+  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-route-table?ref=main"
+
+  for_each    = var.use_route_table ? var.route_tables : {}
+  rg          = module.resource_groups[each.value.rg].name
+  location    = var.location
+  rtable_name = "${local.name_standard}-${each.key}"
+  routes      = each.value.routes
+  tags        = local.tags
 }
 
 module "container_registries" {
