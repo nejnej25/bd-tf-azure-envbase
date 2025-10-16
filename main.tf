@@ -1,9 +1,9 @@
 locals {
   name_standard = "${var.environment}-${var.location}"
   common_tags = {
-    Terraform_Managed = "true"
+    Terraform_Managed        = "true"
     Terraform_Service_Module = "envbase"
-    Environment = var.environment
+    Environment              = var.environment
   }
   tags = merge(
     var.tags,
@@ -22,15 +22,15 @@ module "resource_groups" {
 module "virtual_networks" {
   source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-network?ref=main"
 
-  for_each    = var.use_virtual_network ? var.virtual_networks : {}
-  rg          = module.resource_groups[each.value.rg].name
-  location    = var.location
-  vnet_name   = "${local.name_standard}-${each.key}"
-  vnet_ranges = each.value.vnet_ranges
-  subnets     = each.value.subnets
-  tags        = local.tags
+  for_each           = var.use_virtual_network ? var.virtual_networks : {}
+  rg                 = module.resource_groups[each.value.rg].name
+  location           = var.location
+  vnet_name          = "${local.name_standard}-${each.key}"
+  vnet_ranges        = each.value.vnet_ranges
+  subnets            = each.value.subnets
+  subnet_nsg_mapping = { for k, v in each.value.subnets : k => module.network_security_groups[k].id }
+  tags               = local.tags
 
-  subnet_nsg_mapping = { for k, v in each.value.subnets: k => module.network_security_groups[k].id }
 }
 
 module "network_security_groups" {
