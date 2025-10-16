@@ -26,6 +26,6 @@ output "virtual_network_subnet_ids" {
   description = "Map of subnets IDs in virtual networks"
   value = {
     for k, v in module.virtual_networks :
-      k => v.subnet_ids
+    k => v.subnet_ids
   }
 }

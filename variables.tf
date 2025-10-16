@@ -49,10 +49,46 @@ variable "virtual_networks" {
   }))
 }
 
+variable "network_security_groups" {
+  description = "Network security group definitions"
+  type = map(object({
+    rg = string
+    inbound_rules = optional(map(object({
+      enabled                      = bool
+      priority                     = number
+      protocol                     = string
+      source_port_ranges           = list(string)
+      source_port_range            = string
+      source_address_prefixes      = list(string)
+      source_address_prefix        = string
+      destination_port_ranges      = list(string)
+      destination_port_range       = string
+      destination_address_prefixes = list(string)
+      destination_address_prefix   = string
+      access                       = string
+    })), {})
+    outbound_rules = optional(map(object({
+      enabled                      = bool
+      priority                     = number
+      protocol                     = string
+      source_port_ranges           = list(string)
+      source_port_range            = string
+      source_address_prefixes      = list(string)
+      source_address_prefix        = string
+      destination_port_ranges      = list(string)
+      destination_port_range       = string
+      destination_address_prefixes = list(string)
+      destination_address_prefix   = string
+      access                       = string
+    })), {})
+  }))
+  default = {}
+}
+
 variable "use_container_registry" {
   description = "Enable/disable use of container registry module"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "container_registries" {

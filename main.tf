@@ -29,6 +29,18 @@ module "virtual_networks" {
   tags        = local.tags
 }
 
+module "network_security_groups" {
+  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-network-security-group"
+
+  for_each       = var.use_network_security_group ? var.network_security_groups : {}
+  rg             = module.resource_groups[each.value.rg].name
+  location       = var.location
+  nsg_name       = "${local.name_standard}-${each.key}"
+  inbound_rules  = each.value.inbound_rules
+  outbound_rules = each.value.outbound_rules
+  tags           = local.tags
+}
+
 module "container_registries" {
   source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-container-registry"
 
