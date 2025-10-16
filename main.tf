@@ -32,6 +32,10 @@ module "virtual_networks" {
   subnet_rtable_mapping = { for k, v in each.value.subnets : k => module.route_tables["default"].id }
   tags                  = local.tags
 
+  depends_on = [
+    module.network_security_groups,
+    module.route_tables
+  ]
 }
 
 module "network_security_groups" {
