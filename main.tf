@@ -3,6 +3,7 @@ locals {
   common_tags = {
     Terraform_Managed = "true"
     Terraform_Service_Module = "envbase"
+    Environment = var.environment
   }
   tags = merge(
     var.tags,
