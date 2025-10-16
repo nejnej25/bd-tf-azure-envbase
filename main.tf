@@ -18,7 +18,7 @@ module "resource_groups" {
 }
 
 module "virtual_networks" {
-  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-network"
+  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-network?ref=main"
 
   for_each    = var.use_virtual_network ? var.virtual_networks : {}
   rg          = module.resource_groups[each.value.rg].name
@@ -30,7 +30,7 @@ module "virtual_networks" {
 }
 
 module "network_security_groups" {
-  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-network-security-group"
+  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-network-security-group?ref=main"
 
   for_each       = var.use_network_security_group ? var.network_security_groups : {}
   rg             = module.resource_groups[each.value.rg].name
@@ -42,7 +42,7 @@ module "network_security_groups" {
 }
 
 module "container_registries" {
-  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-container-registry"
+  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-container-registry?ref=main"
 
   for_each                      = var.use_container_registry ? var.container_registries : {}
   rg                            = module.resource_groups[each.value.rg].name
