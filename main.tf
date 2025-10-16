@@ -29,7 +29,7 @@ module "virtual_networks" {
   vnet_ranges           = each.value.vnet_ranges
   subnets               = each.value.subnets
   subnet_nsg_mapping    = { for k, v in each.value.subnets : k => module.network_security_groups[k].id }
-  subnet_rtable_mapping = { for k, v in each.value.subnets : k => module.route_tables["default"].id }
+  #tsubnet_rtable_mapping = { for k, v in each.value.subnets : k => module.route_tables["default"].id }
   tags                  = local.tags
 
   depends_on = [
