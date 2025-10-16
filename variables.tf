@@ -48,3 +48,19 @@ variable "virtual_networks" {
     })), {})
   }))
 }
+
+variable "use_container_registry" {
+  description = "Enable/disable use of container registry module"
+  type = bool
+  default = false
+}
+
+variable "container_registries" {
+  description = "Container registry definitions"
+  type = map(object({
+    rg                            = string
+    sku                           = string
+    public_network_access_enabled = bool
+    admin_enabled                 = bool
+  }))
+}
