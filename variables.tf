@@ -110,6 +110,28 @@ variable "route_tables" {
   }))
 }
 
+variable "use_user_assigned_managed_identity" {
+  description = "Enable/disable use of user assigned managed identity module"
+  type        = bool
+  default     = false
+}
+
+variable "user_assigned_managed_identities" {
+  description = "User assigned managed identity definitions"
+  type = map(object({
+    rg = string
+    role_assignments = optional(map(object({
+      scope = string
+      role  = string
+    })), {})
+    federated_credentials = optional(map(object({
+      audienct = list(string)
+      issuer   = string
+      subject  = string
+    })), {})
+  }))
+}
+
 variable "use_container_registry" {
   description = "Enable/disable use of container registry module"
   type        = bool

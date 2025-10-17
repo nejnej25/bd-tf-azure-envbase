@@ -57,6 +57,16 @@ module "route_tables" {
   tags        = local.tags
 }
 
+module "user_assigned_managed_identities" {
+  source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-user-assigned-managed-identity?ref=main"
+
+  for_each              = var.use_user_assigned_managed_identity ? var.user_assigned_managed_identities : {}
+  rg                    = module.resource_groups[each.value.rg].name
+  location              = var.location
+  uami_name             = "${local.name_standard}-${each.key}"
+  federated_credentials = each.value.federated_credentials
+}
+
 module "container_registries" {
   source = "git@github.com:nejnej25/bd-tf-azure-modules//azure-container-registry?ref=main"
 
