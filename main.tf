@@ -64,7 +64,6 @@ module "user_assigned_managed_identities" {
   rg                    = module.resource_groups[each.value.rg].name
   location              = var.location
   uami_name             = "${local.name_standard}-${each.key}"
-  federated_credentials = each.value.federated_credentials
 }
 
 module "container_registries" {
