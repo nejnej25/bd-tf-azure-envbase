@@ -39,12 +39,13 @@ variable "virtual_networks" {
     rg          = string
     vnet_ranges = list(string)
     subnets = optional(map(object({
-      prefix_enabled     = optional(bool, true)
-      subnet_range       = string
-      service_endpoints  = optional(list(string), [])
-      delegation_enabled = optional(bool, false)
-      delegation_name    = optional(string, "")
-      delegation_action  = optional(list(string), [])
+      prefix_enabled                = optional(bool, true)
+      subnet_range                  = string
+      service_endpoints             = optional(list(string), [])
+      delegation_enabled            = optional(bool, false)
+      delegation_name               = optional(string, "")
+      delegation_action             = optional(list(string), [])
+      associate_route_table_enabled = optional(bool, true)
     })), {})
   }))
 }

@@ -10,6 +10,7 @@ locals {
     local.common_tags
   )
 }
+
 module "resource_groups" {
   source = "git@github.com:nejnej25/bd-tf-azure-modules.git//azure-resource-group?ref=main"
 
@@ -29,7 +30,7 @@ module "virtual_networks" {
   vnet_ranges           = each.value.vnet_ranges
   subnets               = each.value.subnets
   subnet_nsg_mapping    = { for k, v in each.value.subnets : k => module.network_security_groups[k].id }
-  subnet_rtable_mapping = { for k, v in each.value.subnets : k => module.route_tables["default"].id }
+  subnet_rtable_mapping = { for k, v in each.value.subnets : k => module.route_tables["default"].id if v.associate_route_table_enabled }
   tags                  = local.tags
 }
 
